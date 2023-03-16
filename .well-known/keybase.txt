@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/shtrom
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://olivier.mehani.name
+  * I am shtrom (https://keybase.io/shtrom) on keybase.
+  * I have a public key ASB0cXGX4ZPpCeGUC_ydzHhg5_vqFEQeDs7du_3jPXzYewo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101664b50053f1171df3276d56efa2af2476a42370987afddbc751be23164e294b50a",
+      "host": "keybase.io",
+      "kid": "012074717197e193e909e1940bfc9dcc7860e7fbea14441e0eceddbbfde33d7cd87b0a",
+      "uid": "541cb1697a2ac32f8c04d721f94bb700",
+      "username": "shtrom"
+    },
+    "merkle_root": {
+      "ctime": 1678967253,
+      "hash": "b694a16ca2efc78574bf9e789056ebee52bb93f773ea6132820f8cb657b9a12eeae36f58179c9b684318d06ceccac07da1112ac3eb59d5db6e3c7ff80e1b9042",
+      "hash_meta": "21e87750158e01829f9b6232a7c418860929d7eb4ea56be996a6e98b73ccbbed",
+      "seqno": 24203989
+    },
+    "service": {
+      "entropy": "dPlmCD+ota4aPVrMEynRIiFw",
+      "hostname": "olivier.mehani.name",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "6.0.2"
+  },
+  "ctime": 1678967343,
+  "expire_in": 504576000,
+  "prev": "4d0637e10fdb2f046baaccf496724e1f031683b5e265630eb20bebd552cc8c1c",
+  "seqno": 56,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgdHFxl+GT6QnhlAv8ncx4YOf76hREHg7O3bv94z182HsKp3BheWxvYWTESpcCOMQgTQY34Q/bLwRrqsz0lnJOHwMWg7XiZWMOsgvr1VLMjBzEIM6T5LHNjVwlsIconhx0rYdJTWBuz3hZnMeeXT+9FK5EAgHCo3NpZ8RAPnVueNXDFtUAUQP4cjx2rJQAnfIcgoCdJMaFH78QVmOIEynldwhzKeupLtnIvqtUank9asqsdHCI5a12R3+ZA6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIP5YFjER+AgWJQsPFvGh/uhhybMH9xT1MqMPqtR6vBGvo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/shtrom
+
+==================================================================
