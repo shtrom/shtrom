@@ -1,6 +1,6 @@
 # Olivier Mehani (shtrom)
 
-* Staff Engineer [@Learnosity](https://github.com/Learnosity)
+* Staff Software Engineer [@Mozilla](https://github.com/Mozilla)
 * [Blog](https://blog.narf.ssji.net)
 * [CV](https://olivier.mehani.name)
 * PGP: 0xF012A6E298C66655
