@@ -71,6 +71,7 @@ if __name__ == '__main__':
 
 <div class="wp-block-image"><figure class="aligncenter size-full">![Screenshot of a terminal showing example outputs of the sparse matrix generation script](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2024/04/Screenshot-from-2024-04-29-00-16-31.png)</figure></div>The rest of the logic is in a dispatchable workflow. It offers two `choice` inputs with all the supported values, including `all` for the `component` and `region` parameters. It comprises two jobs: the first one passes the input to the matrix-generation script, and stores the JSON output into a variable. The second job is the release job itself, parametrised via two arguments. The arguments are populated with the `matrix` strategy, the data for which comes from an `include` using the `fromJSON` method on the previously generated variable.
 
+{% raw %}
 ```
 name: deploy
 on:
@@ -124,5 +125,6 @@ jobs:
           component: ${{ matrix.component }}
           region: ${{ matrix.region }}
 ```
+{% endraw %}
 
 It should be reasonably easy to expand to more than 2 dimensions. The exercise is left to the reader (potentially future me, when it turns out I need this).
