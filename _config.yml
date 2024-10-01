@@ -2,6 +2,17 @@ include: [".well-known"]
 url: 'https://blog.narf.ssji.net'
 name: Narf
 description: 'The blagosphere got me...'
+
 theme: minima
 minima:
-  skin: solarized-dark
+  date_format: '%Y-%m-%d'
+  social_links:
+    - { platform: mastodon,  user_url: "https://piaiile.fr/shtrom" }
+    - { platform: github,  user_url: "https://github.com/shtrom" }
+  skin: solarized
+header_pages:
+  - README.md
+author:
+  name: Olivie Mehani
+  email: "shtrom+blog@ssji.net"
+show_excerpts: true
