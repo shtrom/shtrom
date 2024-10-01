@@ -40,6 +40,7 @@ SaltStack has two main parts: the [*states*, which describe what needs to be don
 
 With the use of Jinja, it is also possible to define [maps of static values and other varying sets of options](https://docs.saltproject.io/salt/user-guide/en/latest/topics/map-files.html) (e.g., support for different OS’s paths below, lines 3–5).
 
+{% raw %}
 ```
 {% set <+APP+> = salt['grains.filter_by'](                                                                                                                              
 { 
@@ -76,6 +77,7 @@ With the use of Jinja, it is also possible to define [maps of static values and 
 )
 %}
 ```
+{% endraw %}
 
 The key to the way I set states up is that they generally rely on a parameter dictionary from the `map.jinja` file. The dictionary itself is built with default static values, overridable by the pillar (line 32).
 

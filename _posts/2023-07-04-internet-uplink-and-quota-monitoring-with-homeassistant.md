@@ -31,6 +31,7 @@ Here is my updated config, which I placed in `config/packages/internet_speed.yam
 
 First, while reading around, I realised that [HA now supports templated sensors](https://www.home-assistant.io/integrations/template#configuration-variables), which means the `input_number` and automation helpers suggested in the early post are no longer needed.
 
+{% raw %}
 ```
 sensor:
   # Based on https://community.home-assistant.io/t/snmp-bandwidth-monitor/7122; This hasn't changed
@@ -93,9 +94,11 @@ template:
       unit_of_measurement: 'Mbit/s'
       icon: mdi:upload
 ```
+{% endraw %}
 
 Based on the SNMP sensor, I also created an `total_increasing` counter of the sum of up and down traffic, as well as a monthly-resetting (on the 23rd) utility meter.
 
+{% raw %}
 ```
 template:
   [...]
@@ -123,6 +126,7 @@ utility_meter:
       days: 22  # offset from day 1
     periodically_resetting: true
 ```
+{% endraw %}
 
 For ease of update of the monthly quota, I added a couple of `input_number` to set the quota and the reset date (unfortunately, I haven’t found a way to reuse it in the `utility_meter`)
 
@@ -147,6 +151,7 @@ input_number:
 
 This allowed me to calculate an ideal usage given the date, *i.e.*, if my current usage is above the ideal usage, I’m at risk of exceeding the quota before the end of the month. A `binary_sensor` just does that comparison; if it’s `on`, I’m in trouble.
 
+{% raw %}
 ```
 template:
   [...]
@@ -193,9 +198,11 @@ template:
         mdi:check-circle-outline
         {% endif %}
 ```
+{% endraw %}
 
 And to tie it neatly, I added an automatic (daily) notification in case the warning is triggered.
 
+{% raw %}
 ```
 automation:
   - alias: "Notification: Internet usage"
@@ -224,6 +231,7 @@ automation:
             Turn things off!
     mode: single
 ```
+{% endraw %}
 
 Et voilà! No going over quota now!
 

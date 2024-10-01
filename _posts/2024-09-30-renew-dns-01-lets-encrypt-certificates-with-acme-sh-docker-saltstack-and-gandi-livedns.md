@@ -62,6 +62,7 @@ One additional problem I had is that some of the domains for which I wanted to i
 
 As [previously hinted](https://blog.narf.ssji.net/2023/12/28/saltstack-maps-as-objects/ "SaltStack maps as objects"), I use [SaltStack](https://saltproject.io/) to manage the configuration of my systems. It seemed natural to add support for certificate issuance to the existing states. Based on declarative configuration in the pillar, I can finely control the final state of the system.
 
+{% raw %}
 ```
 #!jinja|yaml|gpg
 
@@ -79,11 +80,13 @@ acme:
         - domain: example.com
           alias: exampleCom.example.net
 ```
+{% endraw %}
 
 With a pillar structured this way, it becomes easy to generate new certificates on a whim, simply by adding additional entries in the `certificates` dict. As an added bonus, note how the API key is imported from an encrypted file using the [GPG renderer](https://docs.saltproject.io/en/latest/ref/renderers/all/salt.renderers.gpg.html); the `yaml_encode` seems necessary for proper rendering of the file.
 
 To process this, a state file is in charge of executing the command for each of the defined domain. As [a docker image for `acme.sh` is available](https://hub.docker.com/r/neilpang/acme.sh), I decided to use it for simplicity, rather than having to manually install the script locally.
 
+{% raw %}
 ```
  
 {% for main_domain, cert_params in acme['certificates'].items() %}
@@ -114,6 +117,7 @@ run-acme.sh-dns01-{{ main_domain }}:
     - env: {{ cert_params.acmesh_dns01_env }}
 {% endfor %}
 ```
+{% endraw %}
 
 All this state does is build the command line arguments as shown before, for every domain and alias defined in the pillar. The `acme` object comes from a [`map.jinja` containing default values overridabl, by pillar entries](https://blog.narf.ssji.net/2023/12/28/saltstack-maps-as-objects/ "SaltStack maps as objects").
 
@@ -129,6 +133,7 @@ This is handy with states that only check an invariant, but cannot fix it if it 
 
 This was the last piece of my puzzle. The certificate-issuing state is now setup to run whenever there isn’t a valid certificate, or if it expires too soon in the future.
 
+{% raw %}
 ```
 run-acme.sh-dns01-{{ main_domain }}:
   cmd.run:
@@ -141,6 +146,7 @@ cert-valid-{{ main_domain }}:
     - name: {{ cert }}
     - days: 21
 ```
+{% endraw %}
 
 # Conclusion
 
