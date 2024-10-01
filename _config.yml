@@ -2,3 +2,6 @@ include: [".well-known"]
 url: 'https://blog.narf.ssji.net'
 name: Narf
 description: 'The blagosphere got me...'
+theme: minima
+minima:
+  skin: solarized-dark
