@@ -1,0 +1,23 @@
+---
+id: 1462
+title: 'EPROM switcharoo'
+date: '2024-03-11T18:38:59+11:00'
+author: 'Olivier Mehani'
+layout: revision
+guid: 'https://blog.narf.ssji.net/?p=1462'
+permalink: '/?p=1462'
+footnotes:
+    - ''
+---
+
+- Working on [Updating channel memory on decommissioned AWA RT85 radio](https://blog.narf.ssji.net/2023/11/25/updating-channel-memory-awa-rt85-ham-radio/)
+- Managed to desolder the original MC27C16 EPROM 
+    - The heat gun approach worked a treat, particularly as it had a 50-450°C range, so I could avoid overheating the board with only 150–200°C
+- Dumped the EPROM data, and re-loaded it on an AT28C16
+- Put a DIP24 socket in the daughter board, and the 28C16 in it 
+    - It’s a snug fit, but it’s a fit
+- Realised that I didn’t have an RT85A, but an original RT85, according to <https://www.qsl.net/vk3byy/rt85/rt85data.html> (VK3BYY) 
+    - There is an archive.org of a page from VK3TAE about it <https://web.archive.org/web/20100618044202/http://www.users.on.net/~gbear/rt85.html>, and particularly the [programming data](https://web.archive.org/web/20050615023352/http://keycom.d2.net.au/rt85.pdf) (took copies for later reference)
+    - At a glance, the programming data matches what’s in the EEPROM
+
+<figure class="wp-block-gallery has-nested-images columns-default is-cropped wp-block-gallery-107 is-layout-flex wp-block-gallery-is-layout-flex"><figure class="wp-block-image size-large">![An NMC27C16 desoldered from the Z-273 programming module of the RT85, with the heat gun that did the deed in the background](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_071452584.MP_-768x1024.jpg)</figure><figure class="wp-block-image size-large">![Photo of a screen showing Xgpro running under Wine, and having successfully dumped the contents of an NMC27C16](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_072028699-1024x768.jpg)</figure><figure class="wp-block-image size-large">![The Z-273 with DIP24 socket for the EEPROM, back into the RT85, and juuuust fitting.](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_074508291.MP_-1024x768.jpg)</figure><figure class="wp-block-image size-large">![The Z-273 module with a new DIP24 socket in place, and a freshly programmed 28C16](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_075222566-1024x768.jpg)</figure><figure class="wp-block-image size-large">![Screenshot of Xgpro running under Wine, and indicating success verifying that an AT28C16 has been programmed](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/Screenshot-from-2023-12-30-18-28-17-1024x576.png)</figure></figure><div class="wp-block-jetpack-tiled-gallery aligncenter is-style-rectangular"><div class="tiled-gallery__gallery"><div class="tiled-gallery__row"><div class="tiled-gallery__col" style="flex-basis:62.97322%"><figure class="tiled-gallery__item">![An NMC27C16 desoldered from the Z-273 programming module of the RT85, with the heat gun that did the deed in the background](https://i2.wp.com/blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_071452584.MP_-768x1024.jpg?ssl=1)</figure></div><div class="tiled-gallery__col" style="flex-basis:37.02678%"><figure class="tiled-gallery__item">![Photo of a screen showing Xgpro running under Wine, and having successfully dumped the contents of an NMC27C16](https://i1.wp.com/blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_072028699-1024x768.jpg?ssl=1)</figure><figure class="tiled-gallery__item">![The Z-273 module with a new DIP24 socket in place, and a freshly programmed 28C16](https://i0.wp.com/blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_075222566-1024x768.jpg?ssl=1)</figure><figure class="tiled-gallery__item">![The Z-273 with DIP24 socket for the EEPROM, back into the RT85, and juuuust fitting.](https://i1.wp.com/blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/PXL_20231230_074508291.MP_-1024x768.jpg?ssl=1)</figure></div></div><div class="tiled-gallery__row"><div class="tiled-gallery__col" style="flex-basis:100.00000%"><figure class="tiled-gallery__item">![Screenshot of Xgpro running under Wine, and indicating success verifying that an AT28C16 has been programmed](https://i2.wp.com/blog.narf.ssji.net/wp-content/uploads/sites/3/2023/12/Screenshot-from-2023-12-30-18-28-17-1024x576.png?ssl=1)</figure></div></div></div></div>
