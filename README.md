@@ -1,3 +1,6 @@
+---
+layout: home
+---
 # Olivier Mehani (shtrom)
 
 * Staff Software Engineer [@Mozilla](https://github.com/Mozilla)

@@ -1,9 +1,15 @@
+---
 include: [".well-known"]
 url: 'https://blog.narf.ssji.net'
 name: Narf
 description: 'The blagosphere got me...'
 
-theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# theme: minima
 minima:
   date_format: '%Y-%m-%d'
   social_links:
@@ -16,3 +22,7 @@ author:
   name: Olivie Mehani
   email: "shtrom+blog@ssji.net"
 show_excerpts: true
+paginate: 10
+exclude:
+  - tags
+  - minima
