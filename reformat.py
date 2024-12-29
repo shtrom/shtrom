@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import html
 import logging
 from pathlib import Path
 import sys
@@ -15,7 +16,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # TODO
-#
+# * [ ] Add newline after each paragraph
 # * [ ] FencedCode
 #   * [ ] replace BR
 #   * [ ] wrap in raw/endraw
@@ -37,9 +38,20 @@ def reformat(element):
             logger.info("downloaded image: %(path)s", {"path": path})
             element.src = NEW_PREFIX + str(path)
     elif isinstance(element, mistletoe.block_token.CodeFence):
+        patt = "<br></br>"
+        src = element.children[0].content
+        if patt in src:
+            repl = src.replace(patt, "\n")  # this is what export-to-jekyll
+            element.children[0].content = repl
+            logger.info(
+                "replaced newline markups in %(element)s)", {"element": element}
+            )
         logger.warning("need to add {% raw %} around CodeFence if missing")
+    elif isinstance(element, mistletoe.block_token.Paragraph):
+        # add a newline after each paragraph
+        element.children.append(mistletoe.span_token.RawText("\n"))
     else:
-        logger.debug(type(element))
+        logger.debug(element)
     if cc := element.children:
         for child in cc:
             reformat(child)
@@ -50,15 +62,22 @@ if __name__ == "__main__":
     f = sys.stdin
     if len(sys.argv) > 1:
         f = open(sys.argv[1], "r")
-
-    doc = reformat(mistletoe.Document(f.read()))
+    (_, meta, md) = f.read().split("---\n")
     f.close()
+
+    meta = html.unescape(meta)
+    doc = reformat(mistletoe.Document(md))
+
+    logger.debug(doc)
+
+    renderer = MarkdownRenderer(max_line_length=80)
+    md = renderer.render(doc)
 
     f = sys.stdout
     if len(sys.argv) > 1:
         f = open(sys.argv[1], "w")
-
-    renderer = MarkdownRenderer()
-    md = renderer.render(doc)
+    f.write("---\n")
+    f.write(meta)
+    f.write("---\n")
     f.write(md)
     f.close()
