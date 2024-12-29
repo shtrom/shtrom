@@ -27,3 +27,7 @@ paginate: 10
 exclude:
   - tags
   - minima
+  - requirements.txt
+  - reformat.py
+  - TODO
+  - .venv
