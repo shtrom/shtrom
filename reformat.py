@@ -59,6 +59,10 @@ def reformat(element):
 
 
 if __name__ == "__main__":
+    # needs to be initialised before the first call to mistletoe.Document [0]
+    # [0] https://github.com/miyuchina/mistletoe/issues/211
+    renderer = MarkdownRenderer(max_line_length=80)
+
     f = sys.stdin
     if len(sys.argv) > 1:
         f = open(sys.argv[1], "r")
@@ -70,7 +74,6 @@ if __name__ == "__main__":
 
     logger.debug(doc)
 
-    renderer = MarkdownRenderer(max_line_length=80)
     md = renderer.render(doc)
 
     f = sys.stdout
