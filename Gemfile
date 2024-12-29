@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+gem "jekyll", "~> 4.3"
 gem "minima"
 gem "jekyll-paginate"
 gem "jekyll-feed"
