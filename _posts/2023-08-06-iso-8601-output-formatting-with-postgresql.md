@@ -10,7 +10,7 @@ permalink: /2023/08/06/iso-8601-output-formatting-with-postgresql/
 yarpp_meta:
     - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
 iawp_total_views:
-    - '12'
+    - '26'
 categories:
     - code
     - tip

@@ -1,12 +1,12 @@
 ---
-id: 927
+id: 1711
 title: 'Fun with Python decorators'
-date: '2023-06-08T16:10:26+10:00'
+date: '2024-11-14T13:10:49+11:00'
 author: 'Olivier Mehani'
 excerpt: "In Python, with Click, we wanted to transform any Exception to a `click.ClickException`, and\ncatch one particular exception, to retry the function that raised it with a different parameter value as a fallback. We got the first behaviour quickly into a decorator. We then realised that the second could also be done nicely with a decorator, too."
 layout: revision
-guid: 'https://blog.narf.ssji.net/?p=927'
-permalink: '/?p=927'
+guid: 'https://blog.narf.ssji.net/?p=1711'
+permalink: '/?p=1711'
 ---
 
 We’ve been having some fun with [Click](https://click.palletsprojects.com) and [Python decorators](https://realpython.com/primer-on-python-decorators/) at work.
@@ -40,7 +40,7 @@ First, we want a decorator that `try`es the function, and raises a `click.ClickE
 A decorator takes a function as a parameter, and returns an enhanced (decorated) function. Our decorated function here just needs to be called in a `try ... except` block.
 
 ```
-def error_handler(fun, *args, **kwargs):
+def error_handler(fun):
 
   def wrapped(*args, **kwargs):
     try:

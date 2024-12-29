@@ -38,7 +38,7 @@ The left column gets filled before the start of the day. It’s the commitment. 
 
 Another advantage of the boolean state cells is that they can be counted. This doubles as a poor person’s proxy to metrics. As each row counts for an hour, and there are two columns per row, I arbitrarily count each cell as contributing half an of the block’s colour, that is, half an hour. Meetings are counted differently: only the actual meetings (right column) count as the whole. While not exactly precise, this counting method has the advantage of being simple, and sufficiently accurate to be useful. Moreover, beyond retrospective metrics, I can now gamify work!
 
-<figure class="wp-block-gallery has-nested-images columns-default is-cropped wp-block-gallery-84 is-layout-flex wp-block-gallery-is-layout-flex"><figure class="wp-block-image size-large">![Barchart summaries of work time spent of 2023](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2024/01/Screenshot-2024-01-05-at-11.45.49-1024x570.png)</figure></figure>## Canvassing the next few days
+<figure class="wp-block-gallery has-nested-images columns-default is-cropped wp-block-gallery-85 is-layout-flex wp-block-gallery-is-layout-flex"><figure class="wp-block-image size-large">![Barchart summaries of work time spent of 2023](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2024/01/Screenshot-2024-01-05-at-11.45.49-1024x570.png)</figure></figure>## Canvassing the next few days
 
 The approach above is good for day-to-day planning. However, in the course of weeks, sprints, and months of work, different priorities compete, and tasks of different urgency need to be juggled. This is where the [Eisenhower matrix](https://jamesclear.com/eisenhower-box) comes into play.
 

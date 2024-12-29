@@ -12,7 +12,7 @@ yarpp_meta:
 activitypub_status:
     - federated
 iawp_total_views:
-    - '3'
+    - '24'
 categories:
     - engineering
     - security

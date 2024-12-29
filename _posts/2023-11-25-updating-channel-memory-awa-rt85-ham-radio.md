@@ -10,7 +10,7 @@ permalink: /2023/11/25/updating-channel-memory-awa-rt85-ham-radio/
 yarpp_meta:
     - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
 iawp_total_views:
-    - '1'
+    - '3'
 image: /wp-content/uploads/sites/3/2023/11/PXL_20231125_110150359.MP_-scaled.jpg
 categories:
     - electronics

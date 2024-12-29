@@ -9,7 +9,7 @@ permalink: /2023/07/04/internet-uplink-and-quota-monitoring-with-homeassistant/
 yarpp_meta:
     - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
 iawp_total_views:
-    - '57'
+    - '83'
 image: /wp-content/uploads/sites/3/2023/07/image.png
 categories:
     - code

@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=523'
 permalink: /2020/12/21/removing-spurious-peaks-from-munin-graphs/
 iawp_total_views:
-    - '2'
+    - '6'
 image: /wp-content/uploads/sites/3/2020/12/if_bytes-day.jpg
 categories:
     - code

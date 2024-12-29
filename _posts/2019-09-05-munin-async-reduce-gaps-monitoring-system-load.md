@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=454'
 permalink: /2019/09/05/munin-async-reduce-gaps-monitoring-system-load/
 iawp_total_views:
-    - '12'
+    - '14'
 image: /wp-content/uploads/sites/3/2019/09/wd-async-load-day.png
 categories:
     - sysadmin

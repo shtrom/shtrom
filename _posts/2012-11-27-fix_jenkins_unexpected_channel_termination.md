@@ -7,7 +7,7 @@ layout: post
 guid: 'https://narf.jencuthbert.com/2012/11/27/fix_jenkins_unexpected_channel_termination/'
 permalink: /2012/11/27/fix_jenkins_unexpected_channel_termination/
 iawp_total_views:
-    - '31'
+    - '49'
 categories:
     - fix
     - sysadmin

@@ -11,7 +11,7 @@ activitypub_status:
 yarpp_meta:
     - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
 iawp_total_views:
-    - '15'
+    - '16'
 categories:
     - code
     - security

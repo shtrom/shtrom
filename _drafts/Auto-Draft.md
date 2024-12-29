@@ -1,10 +1,10 @@
 ---
-id: 1687
+id: 1735
 title: 'Auto Draft'
-date: '2024-09-30T18:15:17+10:00'
+date: '2024-12-23T16:08:41+11:00'
 author: 'Olivier Mehani'
 layout: post
-guid: 'https://blog.narf.ssji.net/?p=1687'
-permalink: '/?p=1687'
+guid: 'https://blog.narf.ssji.net/?p=1735'
+permalink: '/?p=1735'
 ---
 

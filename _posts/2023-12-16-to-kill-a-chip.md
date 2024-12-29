@@ -9,7 +9,7 @@ permalink: /2023/12/16/to-kill-a-chip/
 yarpp_meta:
     - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
 iawp_total_views:
-    - '3'
+    - '19'
 categories:
     - electronics
     - hardware

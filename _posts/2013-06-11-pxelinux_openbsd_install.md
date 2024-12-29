@@ -7,7 +7,7 @@ layout: post
 guid: 'https://narf.jencuthbert.com/2013/06/11/pxelinux_openbsd_install/'
 permalink: /2013/06/11/pxelinux_openbsd_install/
 iawp_total_views:
-    - '13'
+    - '14'
 categories:
     - sysadmin
 tags:

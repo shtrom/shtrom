@@ -15,7 +15,7 @@ enclosure:
     - "https://blog.narf.ssji.net/wp-content/uploads/sites/3/2024/07/PXL_20240518_043717206.TS_.webm\n1334363\nvideo/webm\n"
     - "https://static.piaille.fr/media_attachments/files/112/625/366/828/490/755/original/f3fde242877f4a57.mp4\n6650856\nvideo/mp4\n"
 iawp_total_views:
-    - '5'
+    - '7'
 image: /wp-content/uploads/sites/3/2024/07/signal-2024-07-29-194721.jpeg
 categories:
     - DIY

@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=288'
 permalink: /2017/07/17/using-lets-encrypt-certificates-with-a-fritzbox/
 iawp_total_views:
-    - '27'
+    - '57'
 image: /wp-content/uploads/sites/3/2017/07/Screenshot-from-2017-07-17-22-49-24.png
 categories:
     - security

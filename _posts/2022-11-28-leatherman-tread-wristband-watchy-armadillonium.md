@@ -8,7 +8,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=599'
 permalink: /2022/11/28/leatherman-tread-wristband-watchy-armadillonium/
 iawp_total_views:
-    - '3'
+    - '4'
 image: /wp-content/uploads/sites/3/2022/06/IMG_20220615_140412-scaled.jpg
 categories:
     - DIY

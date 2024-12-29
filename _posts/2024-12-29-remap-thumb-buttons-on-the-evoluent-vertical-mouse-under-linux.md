@@ -1,0 +1,105 @@
+---
+id: 1724
+title: 'Remap thumb buttons on the Evoluent Vertical Mouse under Linux'
+date: '2024-12-29T12:40:15+11:00'
+author: 'Olivier Mehani'
+excerpt: "I use an Evoluent Vertical Mouse (VM4R). One of its advantage is the number of buttons. Instead of their defaults, I'd like to remap them to keypresses. I want to do this system-wide without an extra service.\n\nThis can be done via the hwdb subsystem. This has the advantage of being a fairly generic solution, which allows remapping any key/button to any other."
+layout: post
+guid: 'https://blog.narf.ssji.net/?p=1724'
+permalink: /2024/12/29/remap-thumb-buttons-on-the-evoluent-vertical-mouse-under-linux/
+yarpp_meta:
+    - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
+activitypub_status:
+    - federated
+image: /wp-content/uploads/sites/3/2024/12/signal-2024-12-29-123459-e1735436242124.jpeg
+categories:
+    - sysadmin
+    - tip
+tags:
+    - 'Evoluent Vertical Mouse'
+    - hwdb
+    - Linux
+    - systemd
+    - Wayland
+---
+
+As [I’ve described before](https://blog.narf.ssji.net/2024/02/29/musings-on-input-devices/ "Musings on Input Devices"), I use an [Evoluent Vertical Mouse (VM4R)](https://evoluent.com/products/vm4r/). One of its advantage is the number of buttons: in addition to the usual three buttons and wheel, it has another couple of buttons under the thumb.
+
+By default, one side button is mapped to the Back action, but I found it was more likely to be activated by mistake than useful. Instead, I’d like to be able to trigger GNOME’s Activity Overview (usually via the Super key, so I can lazily click and aim for the window I want), as well as a way to scroll horizontally with the wheel (usually by pressing Shift).
+
+There are options, but the majority of them use extra little daemons or services which I didn’t want to run. Most solutions are also Xorg-specific, and don’t seem to translate to Wayland. Surely there is a low-level way to remap mouse buttons to key-presses?!
+
+tl;dr: [There is](https://discussion.fedoraproject.org/t/how-to-remap-mouse-buttons-on-gnome-with-wayland-without-running-an-extra-service/89700/5)! Use the `hwdb` subsystem to remap mouse buttons to key presses (then reload udev/systemd and restart Wayland for the changes to take effect). This has the advantage of being a fairly generic solution, which allows remapping any key/button to any other.
+
+# What to remap?
+
+<div class="wp-block-image"><figure class="alignright size-large is-resized">![An Evoluent Vertical Mouse as seen from the front. It is a mouse, just like other mice, except vertical.](https://blog.narf.ssji.net/wp-content/uploads/sites/3/2024/12/signal-2024-12-29-123459-768x1024.jpeg)</figure></div>The [`evtest`(1)](https://man.archlinux.org/man/libinput.1) tool allows to dump input events and their properties as they happen. It’s low-level, so need to run as root.
+
+```
+$ sudo evtest<br></br>No device specified, trying to scan all of /dev/input/event*<br></br>Available devices:<br></br>[...]<br></br>/dev/input/event22:	Evoluent VerticalMouse 4<br></br>[...]<br></br>Select the device event number [0-17]: 22<br></br>Input driver version is 1.0.1<br></br>Input device ID: bus 0x3 vendor 0x1a7c product 0x191 version 0x111<br></br>Input device name: "Evoluent VerticalMouse 4"<br></br>Supported events:<br></br>  Event type 0 (EV_SYN)<br></br>  Event type 1 (EV_KEY)<br></br>    Event code 272 (BTN_LEFT)<br></br>    Event code 273 (BTN_RIGHT)<br></br>    Event code 274 (BTN_MIDDLE)<br></br>    Event code 275 (BTN_SIDE)<br></br>    Event code 276 (BTN_EXTRA)<br></br>    Event code 277 (BTN_FORWARD)<br></br>  Event type 2 (EV_REL)<br></br>    Event code 0 (REL_X)<br></br>    Event code 1 (REL_Y)<br></br>    Event code 8 (REL_WHEEL)<br></br>    Event code 11 (REL_WHEEL_HI_RES)<br></br>  Event type 4 (EV_MSC)<br></br>    Event code 4 (MSC_SCAN)<br></br>Properties:<br></br>Testing ... (interrupt to exit)<br></br><strong>Event: time 1735381669.676805, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90004</strong><br></br>Event: time 1735381669.676805, type 1 (EV_KEY), code 275 (BTN_SIDE), value 1<br></br>Event: time 1735381669.676805, -------------- SYN_REPORT ------------<br></br>Event: time 1735381669.724797, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90004<br></br>Event: time 1735381669.724797, type 1 (EV_KEY), code 275 (BTN_SIDE), value 0<br></br>Event: time 1735381669.724797, -------------- SYN_REPORT ------------<br></br><strong>Event: time 1735381675.884447, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90006</strong><br></br>Event: time 1735381675.884447, type 1 (EV_KEY), code 277 (BTN_FORWARD), value 1<br></br>Event: time 1735381675.884447, -------------- SYN_REPORT ------------<br></br>Event: time 1735381676.004328, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90006<br></br>Event: time 1735381676.004328, type 1 (EV_KEY), code 277 (BTN_FORWARD), value 0<br></br>Event: time 1735381676.004328, -------------- SYN_REPORT ------------
+```
+
+The output above shows the result of pressing and releasing each button once. Each time, a scan code (`MSC_SCAN`) is shown, before being mapped to a `BTN` and its `value` (yes, the back button is mapped to `BTN_FORWARD`, don’t ask me why, go ask your dad). The scan code is what we’re after. So we want to remap key 90004 to Shift, and 90006 to the Super key.
+
+# What to remap to?
+
+Next, we need to determine the code to remap those buttons to. What are the codes for Shift and the Super key? [`libinput`(1)](https://man.archlinux.org/man/libinput.1) can be used to show what keys the keyboard sends.
+
+```
+$ sudo libinput debug-events --device /dev/input/event5 --show-keycodes<br></br>-event5   DEVICE_ADDED                AT Translated Set 2 keyboard      seat0 default group1  cap:k<strong><br></br> event5   KEYBOARD_KEY                +1.817s	KEY_LEFTSHIFT (42) pressed</strong><br></br> event5   KEYBOARD_KEY                +1.927s	KEY_LEFTSHIFT (42) released<br></br><strong> event5   KEYBOARD_KEY                +4.837s	KEY_LEFTMETA (125) pressed</strong><br></br> event5   KEYBOARD_KEY                +4.946s	KEY_LEFTMETA (125) released
+```
+
+Running this command without `--device` will list the available devices. In this case, we want the keyboard, which generally shows up as `AT Translated Set 2 keyboard`. The `--show-keycodes` option does exactly what it says on the tin. `KEY_LEFTSHIFT` and `KEY_LEFTMETA` are the keycodes we need.
+
+# Remap
+
+We now have all the information: the mouse button codes, and the keycodes to remap them to. The keycodes need a bit of massaging for [`hwdb`(7)](https://www.man7.org/linux/man-pages/man7/hwdb.7.html) to understand them: the `KEY_` prefix needs to be removed, and they need to be lowercased. Ultimately, we need to remap
+
+- button 90004 to `leftshift`
+- button 90006 to `leftmeta`
+
+We add the following to `/etc/udev/hwdb.d/70-evoluent-thumb-activity.hwdb`.
+
+```
+# remap the thumb button of the Evoluent VM4R to the Activities view in GNOME
+# (Super key), and the back button to Shift (to enable horizontal scrolling).
+evdev:name:Evoluent VerticalMouse 4:*
+ ID_INPUT_KEY=1
+ ID_INPUT_KEYBOARD=1
+ KEYBOARD_KEY_90004=leftshift
+ KEYBOARD_KEY_90006=leftmeta
+```
+
+In addition to the button remapping, it also marks the mouse as an input device able to generate key events. For reasons unclear to me, it seems like both `ID_INPUT_KEY` *and* `ID_INPUT_KEYBOARD` are needed.
+
+# Apply the changes
+
+The config now in place, we now need to rebuild the `hwdb` with [`systemd-hwdb`(8)](https://www.man7.org/linux/man-pages/man8/systemd-hwdb.8.html), then reload it with [`udevadm`(8)](https://www.man7.org/linux/man-pages/man8/udevadm.8.html).
+
+```
+# sudo systemd-hwdb update<br></br># sudo udevadm trigger
+```
+
+After restarting Wayland, we can check that the new parameters are taken into account.
+
+```
+$ udevadm info /dev/input/event22<br></br>P: /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4.2/3-4.2.3/3-4.2.3.1/3-4.2.3.1:1.0/0003:1A7C:0191.0027/input/input68/e><br></br>M: event22<br></br>R: 22<br></br>U: input<br></br>D: c 13:86<br></br>N: input/event22<br></br>L: 0<br></br>S: input/by-path/pci-0000:00:14.0-usb-0:4.2.3.1:1.0-event-mouse<br></br>S: input/by-id/usb-1a7c_Evoluent_VerticalMouse_4-event-mouse<br></br>S: input/by-path/pci-0000:00:14.0-usbv2-0:4.2.3.1:1.0-event-mouse<br></br>E: DEVPATH=/devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4.2/3-4.2.3/3-4.2.3.1/3-4.2.3.1:1.0/0003:1A7C:0191.0027/input/i><br></br>E: DEVNAME=/dev/input/event22<br></br>E: MAJOR=13<br></br>E: MINOR=86<br></br>E: SUBSYSTEM=input<br></br>E: USEC_INITIALIZED=64666986962<br></br><strong>E: ID_INPUT_KEYBOARD=1<br></br>E: KEYBOARD_KEY_90004=leftshift<br></br>E: KEYBOARD_KEY_90006=leftmeta</strong><br></br>E: ID_INPUT=1<br></br>E: ID_INPUT_MOUSE=1<br></br><strong>E: ID_INPUT_KEY=1</strong><br></br>E: ID_BUS=usb<br></br>E: ID_MODEL=Evoluent_VerticalMouse_4<br></br>E: ID_MODEL_ENC=Evoluent\x20VerticalMouse\x204<br></br>E: ID_MODEL_ID=0191<br></br>E: ID_SERIAL=1a7c_Evoluent_VerticalMouse_4<br></br>E: ID_VENDOR=1a7c<br></br>E: ID_VENDOR_ENC=1a7c<br></br>E: ID_VENDOR_ID=1a7c<br></br>E: ID_REVISION=0001<br></br>E: ID_TYPE=hid<br></br>E: ID_USB_MODEL=Evoluent_VerticalMouse_4<br></br>E: ID_USB_MODEL_ENC=Evoluent\x20VerticalMouse\x204<br></br>E: ID_USB_MODEL_ID=0191<br></br>E: ID_USB_SERIAL=1a7c_Evoluent_VerticalMouse_4<br></br>E: ID_USB_VENDOR=1a7c<br></br>E: ID_USB_VENDOR_ENC=1a7c<br></br>E: ID_USB_VENDOR_ID=1a7c<br></br>E: ID_USB_REVISION=0001<br></br>E: ID_USB_TYPE=hid<br></br>E: ID_USB_INTERFACES=:030102:<br></br>E: ID_USB_INTERFACE_NUM=00<br></br>E: ID_USB_DRIVER=usbhid<br></br>E: ID_PATH_WITH_USB_REVISION=pci-0000:00:14.0-usbv2-0:4.2.3.1:1.0<br></br>E: ID_PATH=pci-0000:00:14.0-usb-0:4.2.3.1:1.0<br></br>E: ID_PATH_TAG=pci-0000_00_14_0-usb-0_4_2_3_1_1_0<br></br>E: LIBINPUT_DEVICE_GROUP=3/1a7c/191:usb-0000:00:14.0-4.2.3<br></br>E: DEVLINKS=/dev/input/by-path/pci-0000:00:14.0-usb-0:4.2.3.1:1.0-event-mouse /dev/input/by-id/usb-1a7c_Evoluent_Verti><br></br>E: TAGS=:power-switch:<br></br>E: CURRENT_TAGS=:power-switch:
+```
+
+And we can confirm that the right keypresses are sent.
+
+```
+$ sudo evtest /dev/input/event22<br></br>Input driver version is 1.0.1                                                                                          <br></br>Input device ID: bus 0x3 vendor 0x1a7c product 0x191 version 0x111                                                     <br></br>Input device name: "Evoluent VerticalMouse $ sudo evtest /dev/input/event22<br></br>Input driver version is 1.0.1<br></br>Input device ID: bus 0x3 vendor 0x1a7c product 0x191 version 0x111<br></br>Input device name: "Evoluent VerticalMouse 4"<br></br>Supported events:<br></br>  Event type 0 (EV_SYN)<br></br>  Event type 1 (EV_KEY)<br></br>    Event code 42 (KEY_LEFTSHIFT)<br></br>    Event code 125 (KEY_LEFTMETA)<br></br>    Event code 272 (BTN_LEFT)<br></br>    Event code 273 (BTN_RIGHT)<br></br>    Event code 274 (BTN_MIDDLE)<br></br>    Event code 276 (BTN_EXTRA)<br></br>  Event type 2 (EV_REL)<br></br>    Event code 0 (REL_X)<br></br>    Event code 1 (REL_Y)<br></br>    Event code 8 (REL_WHEEL)<br></br>    Event code 11 (REL_WHEEL_HI_RES)<br></br>  Event type 4 (EV_MSC)<br></br>    Event code 4 (MSC_SCAN)<br></br>Properties:<br></br>Testing ... (interrupt to exit)<br></br>Event: time 1735435259.285862, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90004<br></br>Event: time 1735435259.285862, type 1 (EV_KEY), code 42 (KEY_LEFTSHIFT), value 1<br></br>Event: time 1735435259.285862, -------------- SYN_REPORT ------------<br></br>Event: time 1735435259.373854, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90004<br></br>Event: time 1735435259.373854, type 1 (EV_KEY), code 42 (KEY_LEFTSHIFT), value 0<br></br>Event: time 1735435259.373854, -------------- SYN_REPORT ------------<br></br>Event: time 1735435260.077794, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90006<br></br>Event: time 1735435260.077794, type 1 (EV_KEY), code 125 (KEY_LEFTMETA), value 1<br></br>Event: time 1735435260.077794, -------------- SYN_REPORT ------------<br></br>Event: time 1735435260.133789, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90006<br></br>Event: time 1735435260.133789, type 1 (EV_KEY), code 125 (KEY_LEFTMETA), value 0<br></br>4"                                                                          <br></br>Supported events:                                                                                                      <br></br>  Event type 0 (EV_SYN)                                                                                                <br></br>  Event type 1 (EV_KEY)                                                                                                <br></br>    Event code 42 (KEY_LEFTSHIFT)                                                                                      <br></br>    Event code 125 (KEY_LEFTMETA)                                                                                      <br></br>    Event code 272 (BTN_LEFT)                                                                                          <br></br>    Event code 273 (BTN_RIGHT)                                                                                         <br></br>    Event code 274 (BTN_MIDDLE)                                                                                        <br></br>    Event code 276 (BTN_EXTRA)                                                                                         <br></br>  Event type 2 (EV_REL)                                                                                                <br></br>    Event code 0 (REL_X)<br></br>    Event code 1 (REL_Y)<br></br>    Event code 8 (REL_WHEEL)<br></br>    Event code 11 (REL_WHEEL_HI_RES)<br></br>  Event type 4 (EV_MSC)<br></br>    Event code 4 (MSC_SCAN)<br></br>Properties:<br></br>Testing ... (interrupt to exit)<br></br><strong>Event: time 1735435259.285862, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90004<br></br>Event: time 1735435259.285862, type 1 (EV_KEY), code 42 (KEY_LEFTSHIFT), value </strong>1<br></br>Event: time 1735435259.285862, -------------- SYN_REPORT ------------<br></br>Event: time 1735435259.373854, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90004<br></br>Event: time 1735435259.373854, type 1 (EV_KEY), code 42 (KEY_LEFTSHIFT), value 0<br></br>Event: time 1735435259.373854, -------------- SYN_REPORT ------------<br></br><strong>Event: time 1735435260.077794, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90006<br></br>Event: time 1735435260.077794, type 1 (EV_KEY), code 125 (KEY_LEFTMETA), value 1</strong><br></br>Event: time 1735435260.077794, -------------- SYN_REPORT ------------<br></br>Event: time 1735435260.133789, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90006<br></br>Event: time 1735435260.133789, type 1 (EV_KEY), code 125 (KEY_LEFTMETA), value 0
+```
+
+The same can be seen in [wev(1)](https://man.archlinux.org/man/wev.1.en), which allows us to confirm that `KEY_LEFTMETA` is indeed `Super_L`.
+
+```
+$ wev<br></br>[08:         wl_seat] name: seat0                                                                                      <br></br>[08:         wl_seat] capabilities: poin$ wev<br></br>[08:         wl_seat] name: seat0<br></br>[08:         wl_seat] capabilities: pointer keyboard touch<br></br>[10:    xdg_toplevel] configure: width: 0; height: 0<br></br>[09:     xdg_surface] configure: serial: 249721<br></br>[14:     wl_keyboard] keymap: format: 1 (xkb v1), size: 66793<br></br>[14:     wl_keyboard] repeat_info: rate: 25 keys/sec; delay: 600 ms<br></br>[14:     wl_keyboard] key: serial: 249138; time: 533450886; key: 50; state: 1 (pressed)<br></br>                      sym: Shift_L      (65505), utf8: ''<br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0<br></br>                      depressed: 00000001: Shift<br></br>                      latched: 00000000<br></br>                      locked: 00000000<br></br>[14:     wl_keyboard] key: serial: 249140; time: 533450966; key: 50; state: 0 (released)<br></br>                      sym: Shift_L      (65505), utf8: ''<br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0<br></br>                      depressed: 00000000<br></br>                      latched: 00000000<br></br>                      locked: 00000000<br></br>[14:     wl_keyboard] key: serial: 249142; time: 533451269; key: 133; state: 1 (pressed)<br></br>                      sym: Super_L      (65515), utf8: ''<br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0<br></br>                      depressed: 00000040: Mod4<br></br>                      latched: 00000000<br></br>                      locked: 00000000<br></br>[14:     wl_keyboard] key: serial: 249144; time: 533451325; key: 133; state: 0 (released)<br></br>                      sym: Super_L      (65515), utf8: ''<br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0<br></br>                      depressed: 00000000<br></br>                      latched: 00000000<br></br>                      locked: 00000000<br></br>ter keyboard touch                                                             <br></br>[10:    xdg_toplevel] configure: width: 0; height: 0                                                                   <br></br>[09:     xdg_surface] configure: serial: 249721                                                                        <br></br>[14:     wl_keyboard] keymap: format: 1 (xkb v1), size: 66793                                                          <br></br>[14:     wl_keyboard] repeat_info: rate: 25 keys/sec; delay: 600 ms<br></br><strong>[14:     wl_keyboard] key: serial: 249138; time: 533450886; key: 50; state: 1 (pressed)</strong><br></br><strong>                      sym: Shift_L      (65505), utf8: ''  </strong>                                                            <br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0                                                                   <br></br>                      depressed: 00000001: Shift                                                                       <br></br>                      latched: 00000000                                                                                <br></br>                      locked: 00000000                                                                                 <br></br>[14:     wl_keyboard] key: serial: 249140; time: 533450966; key: 50; state: 0 (released)                               <br></br>                      sym: Shift_L      (65505), utf8: ''                                                              <br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0                                                                   <br></br>                      depressed: 00000000                                                                              <br></br>                      latched: 00000000                                                                                <br></br>                      locked: 00000000                                                                                 <br></br>[<strong>14:     wl_keyboard] key: serial: 249142; time: 533451269; key: 133; state: 1 (pressed)                               <br></br>                      sym: Super_L      (65515), utf8: ''  </strong>                                                            <br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0                                                                   <br></br>                      depressed: 00000040: Mod4                                                                        <br></br>                      latched: 00000000                                                                                <br></br>                      locked: 00000000                     <br></br>[14:     wl_keyboard] key: serial: 249144; time: 533451325; key: 133; state: 0 (released)<br></br>                      sym: Super_L      (65515), utf8: ''                                                              <br></br>[14:     wl_keyboard] modifiers: serial: 0; group: 0                                                                   <br></br>                      depressed: 00000000                                                                              <br></br>                      latched: 00000000                                                                                <br></br>                      locked: 00000000    
+```
+
+# Conclusion
+
+I now have the mapping that I want for the extra buttons on my mouse. I’ll set up the config in my [SaltStack](https://blog.narf.ssji.net/tag/saltstack/ "SaltStack") states, so all my machines inherit it by default. And it works systemwide, without any additional user/session tool.
+
+Throughout the process, I glossed over many interesting questions that I may have to revisit later: what are the various “event types” reported by `evtest`, or how is the logical mapping between `MSC_` and `KEY_`/`BTN_` applied?

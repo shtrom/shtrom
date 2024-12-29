@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=517'
 permalink: /2020/11/10/relinking-to-create-unique-kernel-failed/
 iawp_total_views:
-    - '4'
+    - '10'
 categories:
     - fix
     - oneliner

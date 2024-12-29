@@ -1,12 +1,12 @@
 ---
-id: 1065
+id: 1736
 title: 'Git: fixup a commit by message'
-date: '2023-11-14T00:07:18+11:00'
+date: '2024-12-23T16:09:26+11:00'
 author: 'Olivier Mehani'
 excerpt: 'git commit supports --fixup|--squash <commitid> to create a commit that can be automatically squashed. You can use :/<RegExp> to resolve a regular expression to the id of a matching commit. This will find the ID of the most recent commit with message matching /<RegExp>/ and resolve to that.'
 layout: revision
-guid: 'https://blog.narf.ssji.net/?p=1065'
-permalink: '/?p=1065'
+guid: 'https://blog.narf.ssji.net/?p=1736'
+permalink: '/?p=1736'
 ---
 
 I recently happened upon an article by [Julia Evans](https://jvns.ca/) on [what can go wrong when rebasing in Git](https://jvns.ca/blog/2023/11/06/rebasing-what-can-go-wrong-/). This made me realise that I should probably talk about my favourite, yet obscure, Git feature.
@@ -24,4 +24,4 @@ For example `git commit --fixup ":/hat feat"` may create a `!fixup That feature`
 
 Here’s a quick video example.
 
-\[videopress tNvKsiuZ\]
+<figure class="wp-block-video"><video controls="" poster="https://blog.narf.ssji.net/wp-content/uploads/sites/3/2023/11/git_commit-fixup_avi_std.original.jpg" src="https://blog.narf.ssji.net/git_commit-fixup-avi/"></video></figure>

@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=173'
 permalink: /2015/12/26/remote-scanning-qnap-ts-212-samsung-scx-3200-sane/
 iawp_total_views:
-    - '47'
+    - '79'
 categories:
     - code
     - fix

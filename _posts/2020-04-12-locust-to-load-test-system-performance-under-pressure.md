@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=487'
 permalink: /2020/04/12/locust-to-load-test-system-performance-under-pressure/
 iawp_total_views:
-    - '14'
+    - '22'
 image: /wp-content/uploads/sites/3/2020/04/Screen-Shot-2019-08-07-at-16.07.28.jpg
 categories:
     - code

@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=90'
 permalink: /2014/05/07/twocolumn-balancing-latex/
 iawp_total_views:
-    - '28'
+    - '40'
 categories:
     - code
     - tip

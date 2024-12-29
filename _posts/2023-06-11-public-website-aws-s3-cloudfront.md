@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=853'
 permalink: /2023/06/11/public-website-aws-s3-cloudfront/
 iawp_total_views:
-    - '5'
+    - '6'
 image: /wp-content/uploads/sites/3/2023/04/Screenshot-from-2023-04-25-18-47-34.png
 categories:
     - sysadmin

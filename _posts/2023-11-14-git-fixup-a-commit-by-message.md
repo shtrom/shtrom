@@ -9,6 +9,8 @@ guid: 'https://blog.narf.ssji.net/?p=1011'
 permalink: /2023/11/14/git-fixup-a-commit-by-message/
 yarpp_meta:
     - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
+activitypub_status:
+    - federated
 image: /wp-content/uploads/sites/3/2023/11/git-rebase-interactive.jpg
 categories:
     - tip
@@ -31,4 +33,4 @@ For example `git commit --fixup ":/hat feat"` may create a `!fixup That feature`
 
 Here’s a quick video example.
 
-\[videopress tNvKsiuZ\]
+<figure class="wp-block-video"><video controls="" poster="https://blog.narf.ssji.net/wp-content/uploads/sites/3/2023/11/git_commit-fixup_avi_std.original.jpg" src="https://blog.narf.ssji.net/git_commit-fixup-avi/"></video></figure>

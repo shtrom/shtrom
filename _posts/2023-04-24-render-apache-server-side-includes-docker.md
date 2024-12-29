@@ -8,7 +8,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=863'
 permalink: /2023/04/24/render-apache-server-side-includes-docker/
 iawp_total_views:
-    - '7'
+    - '9'
 activitypub_status:
     - federated
 yarpp_meta:

@@ -7,7 +7,7 @@ layout: post
 guid: 'https://narf.jencuthbert.com/2013/03/20/css_folding_menu/'
 permalink: /2013/03/20/css_folding_menu/
 iawp_total_views:
-    - '5'
+    - '9'
 categories:
     - code
 tags:

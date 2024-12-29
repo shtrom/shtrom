@@ -8,7 +8,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=821'
 permalink: /2023/03/01/git-restoration-shenanigans/
 iawp_total_views:
-    - '90'
+    - '145'
 categories:
     - fix
     - sysadmin

@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=773'
 permalink: /2023/02/09/advertise-metered-network-android-router-os/
 iawp_total_views:
-    - '32'
+    - '73'
 image: /wp-content/uploads/sites/3/2023/02/image.png
 categories:
     - sysadmin

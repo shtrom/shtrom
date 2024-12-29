@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=284'
 permalink: /2017/08/10/mitel-5212-sip-client-fritzbox-7390/
 iawp_total_views:
-    - '22'
+    - '30'
 categories:
     - hardware
     - sysadmin

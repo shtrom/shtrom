@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=127'
 permalink: /2015/03/26/managing-locally-built-packages-with-stow/
 iawp_total_views:
-    - '1'
+    - '2'
 categories:
     - rant
     - sysadmin

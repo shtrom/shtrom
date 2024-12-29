@@ -11,7 +11,7 @@ yarpp_meta:
 activitypub_status:
     - federated
 iawp_total_views:
-    - '18'
+    - '28'
 image: /wp-content/uploads/sites/3/2024/02/Screenshot-from-2024-02-07-08-47-38.png
 categories:
     - electronics

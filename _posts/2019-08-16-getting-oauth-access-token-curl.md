@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=447'
 permalink: /2019/08/16/getting-oauth-access-token-curl/
 iawp_total_views:
-    - '10'
+    - '20'
 categories:
     - code
     - oneliner

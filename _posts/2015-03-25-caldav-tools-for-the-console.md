@@ -7,7 +7,7 @@ layout: post
 guid: 'https://blog.narf.ssji.net/?p=125'
 permalink: /2015/03/25/caldav-tools-for-the-console/
 iawp_total_views:
-    - '40'
+    - '62'
 image: /wp-content/uploads/sites/3/2015/03/khal.png
 categories:
     - code

@@ -7,6 +7,12 @@ excerpt: "In Python, with Click, we wanted to transform any Exception to a `clic
 layout: post
 guid: 'https://blog.narf.ssji.net/?p=714'
 permalink: /2022/11/22/fun-with-python-decorators/
+activitypub_status:
+    - federated
+yarpp_meta:
+    - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
+iawp_total_views:
+    - '6'
 image: /wp-content/uploads/sites/3/2022/11/Screen-Shot-2022-11-22-at-12.21.19-e1669120919700.png
 categories:
     - code
@@ -48,7 +54,7 @@ First, we want a decorator that `try`es the function, and raises a `click.ClickE
 A decorator takes a function as a parameter, and returns an enhanced (decorated) function. Our decorated function here just needs to be called in a `try ... except` block.
 
 ```
-def error_handler(fun, *args, **kwargs):
+def error_handler(fun):
 
   def wrapped(*args, **kwargs):
     try:

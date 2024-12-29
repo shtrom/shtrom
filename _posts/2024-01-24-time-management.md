@@ -10,7 +10,7 @@ permalink: /2024/01/24/time-management/
 yarpp_meta:
     - 'a:1:{s:27:"yarpp_display_for_this_post";i:1;}'
 iawp_total_views:
-    - '6'
+    - '7'
 image: /wp-content/uploads/sites/3/2024/01/Screenshot-2024-01-05-at-11.45.49-scaled.png
 categories:
     - engineering

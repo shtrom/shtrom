@@ -10,7 +10,7 @@ permalink: '/?p=791'
 
 > [SystemD FastCGI multiple processes](https://nileshgr.com/2016/07/09/systemd-fastcgi-multiple-processes/)
 
-<iframe class="wp-embedded-content" data-secret="uXqbs7XXEb" frameborder="0" height="338" loading="lazy" marginheight="0" marginwidth="0" sandbox="allow-scripts" scrolling="no" security="restricted" src="https://nileshgr.com/2016/07/09/systemd-fastcgi-multiple-processes/embed/#?secret=wlfzNcEXL0#?secret=uXqbs7XXEb" style="position: absolute; visibility: hidden;" title="“SystemD FastCGI multiple processes” — NileshGR" width="600"></iframe>
+<iframe class="wp-embedded-content" data-secret="jYFC0olqJm" frameborder="0" height="338" loading="lazy" marginheight="0" marginwidth="0" sandbox="allow-scripts" scrolling="no" security="restricted" src="https://nileshgr.com/2016/07/09/systemd-fastcgi-multiple-processes/embed/#?secret=McWCJCkKdI#?secret=jYFC0olqJm" style="position: absolute; visibility: hidden;" title="“SystemD FastCGI multiple processes” — NileshGR" width="600"></iframe>
 
 Old way: spawn-fcgi
 
