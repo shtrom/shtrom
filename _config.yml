@@ -2,6 +2,7 @@
 include: [".well-known"]
 url: 'https://blog.narf.ssji.net'
 name: Narf
+title: Narf
 description: 'The blagosphere got me...'
 
 plugins:
